@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    //https://trustsu.com/nuxt-js/next-document-should-not-be-imported-outside-of-pages-_document-js/
+    "@next/next/no-document-import-in-page": "off"
 }
+
+}
+
