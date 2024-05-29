@@ -5,11 +5,16 @@ export const navLinks = [
       icon: "/assets/icons/home.svg",
     },
     {
-      label: "Image Restore",
-      route: "/transformations/add/restore",
+      label: "Student Admin",
+      route: "/studentadmin",
       icon: "/assets/icons/image.svg",
     },
     {
+      label: "Students",
+      route: "/studentdetails/readstudents",
+      icon: "/assets/icons/image.svg",
+    },
+    /*{
       label: "Generative Fill",
       route: "/transformations/add/fill",
       icon: "/assets/icons/stars.svg",
@@ -28,7 +33,7 @@ export const navLinks = [
       label: "Background Remove",
       route: "/transformations/add/removeBackground",
       icon: "/assets/icons/camera.svg",
-    },
+    },*/
     {
       label: "Profile",
       route: "/profile",

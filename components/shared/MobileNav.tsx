@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Sheet,
     SheetContent,
@@ -13,11 +13,42 @@ import  Link  from 'next/link'
 import Image from 'next/image'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { navLinks } from '@/constants';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
+import LoggedData from '../../components/shared/LoggedData'
+import Cookies from 'js-cookie'; // Import js-cookie library
+
+// Define the UserData type
+type UserData = {
+    userId: number;
+    username: string;
+    personId: number;
+    schoolId: number;
+    lastName: string;
+    firstName: string;
+    roleType: string;
+  };
   
 const MobileNav = () => {
     const pathname = usePathname();
+    const userData = LoggedData();
+    const [loggedData, setLoggedData] = useState<UserData | null>();
+    const router = useRouter(); // Initialize useRouter
+
+    useEffect(() => {
+        setLoggedData(userData)
+    }, [setLoggedData]);
+
+    const handleLogout = () => {
+        // Clear the access_token cookie
+        Cookies.remove('access_token');
+      
+        // Redirect to the login page or any other page as needed
+        // For example, if your login page route is '/login':
+        router.push('/login'); // Make sure to import the useRouter hook from 'next/router'
+        window.location.reload(); 
+      };
+
   return (
     <header className='header'>
         <Link href='/' className='flex items-center gap-2 md:py-2'>
@@ -29,8 +60,10 @@ const MobileNav = () => {
         </Link>
 
         <nav className='flex gap-2'>
-            <SignedIn>
-                <UserButton afterSignOutUrl='/' />
+            <>
+                <Button asChild className='button bg-purple-gradient bg-cover'>  
+                                <Link href="/sign-in">Login</Link>
+                            </Button>
                 <Sheet>
                 <SheetTrigger> 
                     <Image 
@@ -77,22 +110,37 @@ const MobileNav = () => {
                                     )
                                 })}
 
-                                <li className='flex-center cursor-pointer gap-2 p-4'>
-                                    <UserButton afterSignOutUrl='/' showName />
+{ userData? (
+                            <>
+                                  <li className='flex-center cursor-pointer gap-2 p-4'>
+                                    <Button onClick={handleLogout} asChild className='button bg-purple-gradient bg-cover'>  
+                                        <Link onClick={handleLogout} href="/login">Log Out</Link>
+        
+                                    </Button>
                                 </li>
+                            </>
+                           ):(
+                            <li className='flex-center cursor-pointer gap-2 p-4'>
+                            <Button asChild className='button bg-purple-gradient bg-cover'>  
+                                <Link href="/sign-in">Login</Link>
+                            </Button>
+                            </li>
+                           )}  
+
+                           
                             </ul>
 
                     </>
                 </SheetContent>
                 </Sheet>
 
-            </SignedIn>
+            </>
 
-            <SignedOut>
-                    <Button asChild className='button bg-purple-gradient bg-cover'>  {/* shadcn button under ui folder in components */}
+         {/*     <>
+                    <Button asChild className='button bg-purple-gradient bg-cover'>
                         <Link href="/sign-in">Login</Link>
                     </Button>
-            </SignedOut>
+            </> */}
         </nav>
     </header>
   )

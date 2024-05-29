@@ -4,7 +4,7 @@ import { IBM_Plex_Sans } from "next/font/google";  //
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from '@clerk/nextjs'
-
+import { ThemeProvider } from "@/components/theme-provider"
 //Initialize and set weights and other
 const IBM_Plex = IBM_Plex_Sans({ 
     subsets: ["latin"],
@@ -17,20 +17,21 @@ export const metadata: Metadata = {
   description: "AI-powered image generator",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
-    <ClerkProvider appearance={{
-      variables: {colorPrimary: '#624cf5'}
-    }}>
+    
     <html lang="en">
       <body className={cn("font-IBM_Plex antialiased", IBM_Plex.variable)}>
-        {children}
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+        </ThemeProvider>
       </body>
     </html>
-    </ClerkProvider>
+   
   );
 }
