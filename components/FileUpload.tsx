@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import axios from 'axios';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState('https://revolvingloan.siyahlumainvest.co.za/data/api/uploads/loan_comments/Nondwe.pdf');
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: { target: { files: SetStateAction<null>[]; }; }) => {
     setFile(e.target.files[0]);
   };
 
@@ -33,11 +33,13 @@ const FileUpload = () => {
   };
 
   return (
-    <div>
+    <>
+        {/* <div>
       <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-    </div>
-  );
+          <button onClick={handleUpload}>Upload</button>
+      </div> */}
+      <div></div>
+    </>);
 };
 
 export default FileUpload;

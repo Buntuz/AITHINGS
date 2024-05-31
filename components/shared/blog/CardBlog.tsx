@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+import Image from 'next/image'
 
   export type StudyGuide = {
     rows: [{
@@ -90,12 +91,12 @@ const CardBlogBar: FC<CardProps> = ({ blogpost }): JSX.Element => {
     return (
         <>
             {blogpost.map((post) => (
-                    <Card className="w-[350px] border border-gray-300 hover:border-orange-200 transition duration-300 ease-in-out flex flex-col items-center">
+                    <Card key={post.title} className="w-[350px] border border-gray-300 hover:border-orange-200 transition duration-300 ease-in-out flex flex-col items-center">
                     <CardHeader>
                     <CardTitle>{post.title}</CardTitle>
                     <CardDescription>
                     <div className="flex justify-center">
-                        <img src={post.image} alt="Project Image" 
+                        <Image src={post.image} alt="Project Image" 
                          className="h-60 w-60 object-cover rounded-lg transition duration-300 ease-in-out transform hover:scale-105" />
                     </div>
                     </CardDescription>

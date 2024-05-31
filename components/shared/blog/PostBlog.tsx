@@ -292,7 +292,7 @@ https://nextjs.org/docs/pages/api-reference/components/image
                                                         </FormControl>
                                                         <SelectContent>
                                                         {categorydata?.rows?.map((school, index) => (
-                                                            <SelectItem key={index} value={school.category_id.toString()}>{school.category_name}</SelectItem>
+                                                            <SelectItem key={index} value={school.id.toString()}>{school.Name}</SelectItem>
                                                         ))}
                                                         </SelectContent>
                                                     </Select>

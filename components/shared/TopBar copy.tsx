@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-
+import Image from 'next/image'
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import {
@@ -94,7 +94,7 @@ const TopBar = () => {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            <Image className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -212,8 +212,8 @@ const TopBar = () => {
                                 <NavigationMenuTrigger>Components</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                    {components.map((component) => (
-                                                <ul className="space-y-4">
+                                    {components.map((component, index) => (
+                                                <ul key={index} className="space-y-4">
                                                 <li>
                                                 <a
                                                     href={component.href}
@@ -257,7 +257,7 @@ const TopBar = () => {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
+              <Image
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
@@ -359,8 +359,8 @@ const TopBar = () => {
                                 <NavigationMenuTrigger>Components</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                    {components.map((component) => (
-                                                <ul className="space-y-4">
+                                    {components.map((component, index) => (
+                                                <ul key={index} className="space-y-4">
                                                 <li>
                                                 <a
                                                     href={component.href}

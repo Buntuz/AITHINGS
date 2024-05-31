@@ -197,7 +197,7 @@ const FeatureBar = () => {
                          
                           <div className='flex-auto w-96'>
                               <div className='flex items-center flex-wrap mt-1 justify-center gap-4'>
-                                  <CardBlogBar blogpost={blogPostData} />
+                               {/*  <CardBlogBar blogpost={blogPostData} /> */} 
                                   
                               </div>
                           </div>

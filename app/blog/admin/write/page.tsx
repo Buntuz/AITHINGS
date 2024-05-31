@@ -58,6 +58,48 @@ const defaultStudyGuide: StudyGuide = {
      }]
 };
 
+
+
+export type BlogPostData = {
+  map(arg0: (post: any) => React.JSX.Element): unknown;
+    id: number;
+    title: string;
+    author: string;
+    date: string;
+    image: string;
+    description: string;
+}
+
+
+interface BlogPost {
+  map(arg0: (post: any) => React.JSX.Element): unknown;
+  id: number;
+  title: string;
+  author: string;
+  date: string;
+  image: string;
+  description: string;
+}
+
+
+ type blogpost = {
+  blogpost: BlogPost
+}
+
+type Event = {
+  rows:[{
+        id: number;
+        name: string;
+        date_event: string; 
+        year: string,
+        theme: string,
+        time_event: string,
+    }]
+    
+};
+
+
+
 const ReadStudentsWithSchoolIDPage = () => {
   const pathname = usePathname();
   const [file, setFile] = useState(null);
@@ -75,6 +117,9 @@ const StudentAdminPage = () => {
   const [schoolnamedata, setSchoolName] = useState<string>('');
   const [studyguidedata, setStudyGuide] = useState<StudyGuide | typeof defaultStudyGuide>();
   
+  const [blogPost, setBlogPost] = useState<blogpost>();
+  
+
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -145,7 +190,7 @@ const StudentAdminPage = () => {
      */}
 
 
-  <PostBlog /> 
+  {/*<PostBlog blogpost={blogPost} />  */}
 
   <Input
       type="file"
@@ -160,6 +205,6 @@ const StudentAdminPage = () => {
     </>
   )}
 
-export default withAuth(ReadStudentsWithSchoolIDPage, 'admin');
+//export default withAuth(ReadStudentsWithSchoolIDPage, 'admin');
 
-//export default ProtectedRoute(ReadStudentsWithSchoolIDPage)
+export default ProtectedRoute(ReadStudentsWithSchoolIDPage)

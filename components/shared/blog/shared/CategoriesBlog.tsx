@@ -8,7 +8,7 @@ import { z } from "zod"
 import { BASE_URL } from "@/config/config";
 import axios from "axios";
 import useApiPost from "@/components/hooks/useApiPost";
-
+import useApiFetch from '@/components/hooks/useApiFetch'
 
 //<PaginationCards data={searchResults}
 export type StudyGuide1 = {
@@ -95,9 +95,9 @@ const CategoriesBlog: FC<StudyGuideProps> = ({ studyguide }): JSX.Element => {
           
           console.log(dataFetched)
           //return response;
-          if(res){
-            setCategories(res);
-          }
+         // if(res){
+          //  setCategories(res);
+         // }
         
         }
 
