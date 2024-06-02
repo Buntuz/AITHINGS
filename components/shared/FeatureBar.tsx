@@ -1,9 +1,11 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
+
+import { BlogPost } from '@/types/BlogType';
   
 
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
@@ -27,7 +29,6 @@ const features = [
     icon: ServerIcon,
   },
 ]
-
 
 const posts = [
   {
@@ -156,24 +157,16 @@ const people = [
   },
 ]
 
-interface BlogPost {
-  id: number;
-  title: string;
-  author: string;
-  date: string;
-  image: string;
-  description: string;
-}
 
-const blogPostData = [
-  {
-    id: 1,
-    title: 'How to Build a Blog with React and Tailwind CSS',
+const blogPostData: BlogPost[] = [
+  { id: 1,
+    title: 'How to Build a Blog with React.',
     author: 'John Doe',
     date: 'July 12, 2023',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     description:
-      'Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.',
+      'Sed cursus ante dapibus diam.',
+      category: "Tech"
   },
   {
     id: 2,
@@ -182,111 +175,188 @@ const blogPostData = [
     date: 'August 5, 2023',
     image: 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     description:
-      'Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.',
+      'Sed cursus ante dapibus diam.',
+      category: "Tech"
+  }
+  ,
+  {
+    id: 3,
+    title: '10 Tips for Effective Time Management',
+    author: 'Jane Smith',
+    date: 'August 5, 2023',
+    image: 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    description:
+      'Sed cursus ante dapibus diam.',
+      category: "Sports"
   },
-  // Add more blog post objects as needed
+  { id: 4,
+    title: 'How to Build a Blog with React and Tailwind CSS',
+    author: 'John Doe',
+    date: 'July 12, 2023',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    description:
+      'Sed cursus ante dapibus diam.',
+      category: "Recent"
+  }
+];
+
+const blogCategories = [
+  { name: 'Recent', count: blogPostData.filter(post => post.category === 'Recent').length },
+  { name: 'Tech', count: blogPostData.filter(post => post.category === 'Tech').length },
+  { name: 'Sports', count: blogPostData.filter(post => post.category === 'Sports').length },
+  // more categories...
 ];
 
 const FeatureBar = () => {
+
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const handleCategoryClick = (category: React.SetStateAction<string>) => {
+   // alert(category)
+    setSelectedCategory(category);
+  };
+
+  const filteredBlogs = selectedCategory === 'All'
+    ? blogPostData
+    : blogPostData.filter(blogpost => blogpost.category === selectedCategory);
+
+    
   return (
     <>
-          <div className="md:container md:mx-auto sm:container lg:container ">
 
-          
-                    <div className="flex flex-wrap">
-                         
-                          <div className='flex-auto w-96'>
-                              <div className='flex items-center flex-wrap mt-1 justify-center gap-4'>
-                               {/*  <CardBlogBar blogpost={blogPostData} /> */} 
-                                  
-                              </div>
+            
+            {/* 
+                <div className="md:container md:mx-auto sm:container lg:container bg-orange-400">
+                          <div className="flex flex-wrap">
+                              
+                                <div className='flex-auto w-96'>
+                                    <div className='flex items-center flex-wrap mt-1 justify-center gap-1'>
+                                    
+                                    {blogPostData.map((blogpost) => (
+                                      <CardBlogBar key={blogpost.id} blogpost={blogpost} />
+                                    ))}
+                                                                
+                                    </div>
+                                </div>
+
+                                <div className='flex-auto w-28'>
+                                <div className="relative flex flex-col text-gray-700 shadow-md w-96 rounded-xl bg-clip-border">
+                                    <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
+                                      <div role="button"
+                                        className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
+                                        Inbox
+                                        <div className="grid ml-auto place-items-center justify-self-end">
+                                          <div
+                                            className="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10">
+                                            <span className="">14</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div role="button"
+                                        className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
+                                        Spam
+                                        <div className="grid ml-auto place-items-center justify-self-end">
+                                          <div
+                                            className="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10">
+                                            <span className="">2</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div role="button"
+                                        className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
+                                        Trash
+                                        <div className="grid ml-auto place-items-center justify-self-end">
+                                          <div
+                                            className="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10">
+                                            <span className="">40</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nav>
+                                  </div>
+                                </div>
                           </div>
-                          <div className='flex-auto w-28'>
-                          <div className="relative flex flex-col text-gray-700 shadow-md w-96 rounded-xl bg-clip-border">
-                              <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
-                                <div role="button"
-                                  className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
-                                  Inbox
-                                  <div className="grid ml-auto place-items-center justify-self-end">
-                                    <div
-                                      className="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10">
-                                      <span className="">14</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div role="button"
-                                  className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
-                                  Spam
-                                  <div className="grid ml-auto place-items-center justify-self-end">
-                                    <div
-                                      className="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10">
-                                      <span className="">2</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div role="button"
-                                  className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
-                                  Trash
-                                  <div className="grid ml-auto place-items-center justify-self-end">
-                                    <div
-                                      className="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10">
-                                      <span className="">40</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </nav>
-                            </div>
-                          </div>
-                    </div>
                 </div>
+          */}  
+          <div className="md:container md:mx-auto sm:container lg:container bg-orange-400">
+            <div className="flex flex-wrap">
+              {/* Left side: Featured Blogs */}
+              
+              {/*
+              <div className="flex-auto md:w-2/3 p-2">
+                <div className="flex items-center flex-wrap mt-1 justify-center gap-1">
+                  
+                {filteredBlogs.map(blogpost => (
+                  <CardBlogBar key={blogpost.id} blogpost={blogpost} />
+                ))}
 
-       {/*}       <div className="py-2 sm:py-3  text-orange-600">
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                  <h2 className="text-lg font-bold break-before-left">Recent Blogs</h2> 
+                  {blogPostData
+                    .filter(blogpost => blogpost.category === 'Recent')
+                    .map(blogpost => (
+                      <CardBlogBar key={blogpost.id} blogpost={blogpost} />
+                    ))}
+                  <h2 className="text-lg font-bold mt-4">Tech</h2> <br />
+                  {blogPostData
+                    .filter(blogpost => blogpost.category === 'Tech')
+                    .map(blogpost => (
+                      <CardBlogBar key={blogpost.id} blogpost={blogpost} />
+                    ))}
+                  <h2 className="text-lg font-bold mt-4">Sports</h2>
+                  {blogPostData
+                    .filter(blogpost => blogpost.category === 'Sports')
+                    .map(blogpost => (
+                      <CardBlogBar key={blogpost.id} blogpost={blogpost} />
+                    ))}
+                </div>
+                
+                </div>
+              </div> */}
 
-                      <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                        {posts.map((post) => (
-                          <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
-                            <div className="flex items-center gap-x-4 text-xs">
-                              <time dateTime={post.datetime} className="text-gray-500">
-                                {post.date}
-                              </time>
-                              <a
-                                href={post.category.href}
-                                className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                              >
-                                {post.category.title}
-                              </a>
-                            </div>
-                            <div className="group relative">
-                              <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                <a href={post.href}>
-                                  <span className="absolute inset-0" />
-                                  {post.title}
-                                </a>
-                              </h3>
-                              <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
-                            </div>
-                            <div className="relative mt-8 flex items-center gap-x-4">
-                              <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
-                              <div className="text-sm leading-6">
-                                <p className="font-semibold text-gray-900">
-                                  <a href={post.author.href}>
-                                    <span className="absolute inset-0" />
-                                    {post.author.name}
-                                  </a>
-                                </p>
-                                <p className="text-gray-600">{post.author.role}</p>
-                              </div>
-                            </div>
-                          </article>
-                        ))}
-                      </div>
+              {/* Left side: Featured Blogs */}
+                <div className="flex-auto md:w-2/3 p-2">
+                <div className="flex items-center flex-wrap mt-1 justify-center gap-1">
+                  {filteredBlogs.map(blogpost => (
+                    <CardBlogBar key={blogpost.id} blogpost={blogpost} />
+                  ))}
+                </div>
+              </div>
 
-                            <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                            dsdsd
-                          </div>
-                    </div>
-                      </div> */}
+        {/* Right side: Blog Categories */}
+        <div className="flex-auto md:w-1/3 p-2">
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Blog Categories</h2>
+            <ul className="space-y-2">
+              <li
+                key="all"
+                className={`flex justify-between items-center cursor-pointer p-2 ${selectedCategory === 'All' ? 'bg-blue-100' : ''}`}
+                onClick={() => handleCategoryClick('All')}
+                
+              >
+                <span className="text-lg text-gray-700">All</span>
+                <span className="text-sm text-gray-500">{blogPostData.length}</span>
+              </li>
+
+              {blogCategories.map((category, index) => (
+                <li
+                  key={index}
+                  className={`flex justify-between items-center cursor-pointer p-2 ${selectedCategory === category.name ? 'bg-blue-100' : ''}`}
+                  onClick={() => handleCategoryClick(category.name)}
+                >
+                  <span className="text-lg text-gray-700">{category.name}</span>
+                  <span className="text-sm text-gray-500">{category.count}</span>
+                </li>
+              ))}
+            </ul>
+
+
+          </div>
+        </div>
+
+
+            </div>
+          </div>
+
     </>
    
   )
