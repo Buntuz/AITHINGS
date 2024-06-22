@@ -80,7 +80,7 @@
 }
 
 .root {
-  @apply flex min-h-screen w-full flex-col bg-white lg:flex-row;
+  @apply flex min-h-screen w-full flex-col bg-black lg:flex-row;
 }
 
 .root-container {
@@ -91,9 +91,19 @@
 @layer utilities {
   /* ===== UTILITIES */
   .wrapper {
-    @apply max-w-5xl mx-auto px-5 md:px-10 w-full text-dark-400 p-16-regular;
+    @apply max-w-7xl mx-auto px-5 md:px-10 w-full text-dark-400 p-16-regular;
   }
 
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--red);
+    transform-origin: 0%;
+  }
+  
   .gradient-text {
     @apply bg-purple-gradient bg-cover bg-clip-text text-transparent;
   }
@@ -407,3 +417,5 @@
     background-position: 100% 100%;
   }
 }
+
+

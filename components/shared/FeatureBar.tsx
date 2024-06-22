@@ -1,6 +1,7 @@
 "use client"
-import React, { useState } from 'react'
-
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import { BASE_URL } from '@/config/config';
 import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
@@ -209,17 +210,58 @@ const blogCategories = [
 
 const FeatureBar = () => {
 
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  //const [blogPostData, setBlogPostData] = useState<BlogPost[]>([]);
+  const [blogPostData, setBlogPostData] = useState<BlogPost[] | null>(null);
+  //const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const handleCategoryClick = (category: React.SetStateAction<string>) => {
+  //const handleCategoryClick = (category: React.SetStateAction<string>) => {
    // alert(category)
+  //  setSelectedCategory(category);
+  //};
+
+  const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
 
-  const filteredBlogs = selectedCategory === 'All'
-    ? blogPostData
-    : blogPostData.filter(blogpost => blogpost.category === selectedCategory);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        //const response = await fetch('https://www.buntutechsolutions.co.za/api/posts');
+        //const result = await response.json();
+       // const blogPostData: BlogPost[] = await response.json();
+
+        const response = await axios.get(`${BASE_URL}/api/posts`);
+        const blogPostData = JSON.parse(response.data); // Convert string to JSON object
+        
+        setBlogPostData(blogPostData);
+        console.log(blogPostData)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+
+  const blogCategories = blogPostData ? [
+    { name: 'All', count: blogPostData.length },
+    ...Array.from(new Set(blogPostData.map(post => post.category)))
+      .map(category => ({
+        name: category,
+        count: blogPostData.filter(post => post.category === category).length
+      }))
+  ] : [];
+
+  
+
+  const filteredBlogs = blogPostData ? (selectedCategory === 'All'
+    ? blogPostData
+    : blogPostData.filter(blogpost => blogpost.category === selectedCategory)) : [];
+
+  
     
   return (
     <>
@@ -278,7 +320,7 @@ const FeatureBar = () => {
                           </div>
                 </div>
           */}  
-          <div className="md:container md:mx-auto sm:container lg:container bg-orange-400">
+          <div className="md:container md:mx-auto sm:container lg:container">
             <div className="flex flex-wrap">
               {/* Left side: Featured Blogs */}
               
@@ -316,6 +358,7 @@ const FeatureBar = () => {
               {/* Left side: Featured Blogs */}
                 <div className="flex-auto md:w-2/3 p-2">
                 <div className="flex items-center flex-wrap mt-1 justify-center gap-1">
+                 {/* <div>{JSON.stringify(filteredBlogs ?? (filteredBlogs))}</div> */}
                   {filteredBlogs.map(blogpost => (
                     <CardBlogBar key={blogpost.id} blogpost={blogpost} />
                   ))}
@@ -334,7 +377,7 @@ const FeatureBar = () => {
                 
               >
                 <span className="text-lg text-gray-700">All</span>
-                <span className="text-sm text-gray-500">{blogPostData.length}</span>
+                <span className="text-sm text-gray-500">{blogPostData?.length}</span>
               </li>
 
               {blogCategories.map((category, index) => (
@@ -347,6 +390,7 @@ const FeatureBar = () => {
                   <span className="text-sm text-gray-500">{category.count}</span>
                 </li>
               ))}
+              
             </ul>
 
 

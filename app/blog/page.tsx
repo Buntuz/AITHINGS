@@ -1,4 +1,6 @@
 "use client"
+import '@radix-ui/themes/styles.css';
+import { Theme, ThemePanel } from '@radix-ui/themes';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
@@ -11,14 +13,12 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react'
 import { BASE_URL } from '@/config/config';
 
-import SubjectSelect from "@/components/shared/SubjectSelect"
-import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import TopBar from '@/components/shared/TopBar'
 import HeroBar from '@/components/shared/HeroBar'
 import BannerBar from '@/components/shared/BannerBar';
 import FeatureBar from '@/components/shared/FeatureBar';
 
-import { AuthProvider } from '@/context/authContext';
+
 import { AppProps } from 'next/app';
 
 export type Student = {
@@ -39,7 +39,6 @@ export type Student = {
 }]
 }
 
-
 export type StudyGuide = {
   rows:[{
   id: string;
@@ -56,15 +55,41 @@ const defaultStudyGuide: StudyGuide = {
      }]
 };
 
-const ReadStudentsWithSchoolIDPage = ({ Component, pageProps }: AppProps) => {
+interface YourMama{
+  age: string | number;
+  weight:string | number;
+}
+
+const yourMum: YourMama = {
+  age: "ancient",
+  weight: "too much"
+};
+
+//yourMum.weight.charAt(0);
+
+const yourMumSatisfies : YourMama ={
+  age: 33,
+  weight: "too Just right"
+} satisfies YourMama
+
+//yourMumSatisfies.weight.charAt(0)
+
+interface PageProps {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+//export default function ReadStudentsWithSchoolIDPage ({ Component, pageProps }: AppProps) => {
+  export default function ReadStudentsWithSchoolIDPage({ params, searchParams }: PageProps) {
+  //const ReadStudentsWithSchoolIDPage: React.FC = () => {
   const pathname = usePathname();
   
   return (
-    <AuthProvider>
+    //<AuthProvider>
     <Suspense fallback={<div>Loading...</div>}> {/* Wrap with SuspenseBoundary */}
       <StudentAdminPage />
     </Suspense>
-    </AuthProvider>
+   // </AuthProvider>
   );
 };
 
@@ -125,16 +150,19 @@ const StudentAdminPage = () => {
   
   return (
     <>
+   {/* <Theme appearance='light' accentColor='violet'> */}
+   
     <TopBar />
     <br /> <br /> <br />
-    <BannerBar/>
+    {/* <BannerBar/> */}
     <HeroBar/>
     <FeatureBar />
-  
+   {/* <ThemePanel />
+    </Theme> */}
+    
     </>
-    
-    
   )
 }
 
-export default ProtectedRoute(ReadStudentsWithSchoolIDPage)
+//export default ReadStudentsWithSchoolIDPage
+

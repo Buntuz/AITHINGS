@@ -13,25 +13,30 @@ const IBM_Plex = IBM_Plex_Sans({
   });
 
 export const metadata: Metadata = {
-  title: "Imagination",
+  title: "Tech AI things",
   description: "AI-powered image generator",
 };
 
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
-    
+    <ClerkProvider appearance={{
+      variables: { colorPrimary: '#624cf5' }
+    }}>
     <html lang="en">
       <body className={cn("font-IBM_Plex antialiased", IBM_Plex.variable)}>
-      <ThemeProvider
+      
+      {/* <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
             {children}
-        </ThemeProvider>
+        </ThemeProvider> */}
+
+          {children}
       </body>
     </html>
-   
+    </ClerkProvider>
   );
 }

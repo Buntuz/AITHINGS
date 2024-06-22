@@ -14,11 +14,9 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 
-
-  import Link from "next/link"
- 
-  import { cn } from "@/lib/utils"
-  import {
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import {
     NavigationMenu,
     NavigationMenuContent,
     NavigationMenuItem,
@@ -27,8 +25,9 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
-  
-  const components: { title: string; href: string; description: string }[] = [
+  import { UserButton } from '@clerk/nextjs'
+
+const components: { title: string; href: string; description: string }[] = [
     {
       title: "Alert Dialog",
       href: "/docs/primitives/alert-dialog",
@@ -84,10 +83,11 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/
   }
 
   const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
+    { name: 'Home', href: '/blog' },
+    { name: 'About', href: '#' },
+    { name: 'Blogs', href: '/blog' },
+    { name: 'Contact', href: '/contacts' },
+    { name: 'Innovative Work', href: '/works' },
   ]
   
   
@@ -96,7 +96,7 @@ const TopBar = () => {
   return (
     <>  
     <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <nav className="flex items-center justify-between p-6 lg:px-8 z-10 h-12 bg-background/55 backdrop-blur-md" aria-label="Global">
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
@@ -126,7 +126,7 @@ const TopBar = () => {
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              Log in <span aria-hidden="true">&rarr;</span>
+            <UserButton afterSignOutUrl='/' /> 
             </a>
           </div>
         </nav>
@@ -177,10 +177,7 @@ const TopBar = () => {
           </Dialog.Panel>
         </Dialog>
     </header>
-
-    </>
-   
-  )
+    </>)
 }
 
 export default TopBar
